@@ -1,32 +1,22 @@
 {
-  "cleanUrls": true,
-  "routes": [
+  "version": 2,
+  "rewrites": [
+    { "source": "/landing", "destination": "/landing.html" },
+    { "source": "/((?!.*\\.).*)", "destination": "/index.html" }
+  ],
+  "headers": [
     {
-      "src": "/sw.js",
-      "headers": {
-        "cache-control": "no-cache, no-store, must-revalidate",
-        "service-worker-allowed": "/"
-      },
-      "dest": "/sw.js"
+      "source": "/sw.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
+        { "key": "Service-Worker-Allowed", "value": "/" }
+      ]
     },
     {
-      "src": "/manifest.json",
-      "headers": {
-        "content-type": "application/manifest+json"
-      },
-      "dest": "/manifest.json"
-    },
-    {
-      "src": "/(styles\\.css|app\\.js|icons/.*|.*\\.(?:png|jpg|jpeg|gif|svg|ico|webp|woff2?|ttf|eot))",
-      "dest": "/$1"
-    },
-    {
-      "src": "/landing(\\.html)?",
-      "dest": "/landing.html"
-    },
-    {
-      "src": "/.*",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" }
+      ]
     }
   ]
 }
