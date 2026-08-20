@@ -1,0 +1,8 @@
+{
+  "name": "Luminara",
+  "description": "A dreamy manifestation tool: affirmations, gratitude journal, vision board, future-self audio & AI guidance",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
