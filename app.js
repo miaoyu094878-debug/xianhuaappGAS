@@ -1753,4 +1753,10 @@
   renderToday(); renderGoals(); renderAffirm(); renderGrat(); renderVision(); renderMedTime();
   initSwipe();
   maybeShowQuiz();
+
+  window.addEventListener('resize', function () {
+    if (document.querySelector('#tab-wallpaper.active')) {
+      renderWallpaper();
+    }
+  });
 })();

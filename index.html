@@ -21,13 +21,35 @@
         navigator.serviceWorker.getRegistrations().then(function(regs) {
           regs.forEach(function(r) { r.unregister(); });
         }).catch(function() {});
+        if ('caches' in window) {
+          caches.keys().then(function(names) {
+            names.forEach(function(name) { caches.delete(name); });
+          }).catch(function() {});
+        }
       }
-      var ua = navigator.userAgent;
-      var isPhone = /Android|iPhone|iPod|Opera Mini|IEMobile|Mobile|BlackBerry/i.test(ua);
-      var isIPad = /Macintosh/i.test(ua) && navigator.maxTouchPoints > 1;
-      var isTablet = /iPad|Tablet|PlayBook|Silk|Kindle|Nexus|KFTT/i.test(ua) || isIPad;
-      var cls = (isPhone || isTablet) ? 'device-mobile' : 'device-desktop';
-      document.documentElement.classList.add(cls);
+      function syncDeviceMode() {
+        var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth || 375;
+        var ua = navigator.userAgent;
+        var isPhoneUA = /Android|iPhone|iPod|Opera Mini|IEMobile|Mobile|BlackBerry/i.test(ua);
+        var isTabletUA = /iPad|Tablet|PlayBook|Silk|Kindle|Nexus|KFTT/i.test(ua) || (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1);
+        var isInsideIframe = window.self !== window.top;
+        
+        // 1. Real mobile or tablet device -> ALWAYS Mobile UI
+        // 2. Inside AI Studio preview iframe with mobile preview width (<= 600px) -> Mobile UI
+        // 3. Real desktop browser -> ALWAYS Desktop UI
+        var isMobile = isPhoneUA || isTabletUA || (isInsideIframe && w <= 600);
+
+        if (isMobile) {
+          document.documentElement.classList.remove('device-desktop');
+          document.documentElement.classList.add('device-mobile', 'device-phone');
+        } else {
+          document.documentElement.classList.remove('device-mobile', 'device-phone');
+          document.documentElement.classList.add('device-desktop');
+        }
+      }
+      syncDeviceMode();
+      window.addEventListener('resize', syncDeviceMode);
+      window.addEventListener('DOMContentLoaded', syncDeviceMode);
     } catch (e) {}
   })();
   </script>

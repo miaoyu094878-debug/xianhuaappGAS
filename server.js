@@ -8,8 +8,16 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = 3000;
 
+// Prevent stale caching in iframe and preview environments
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  next();
+});
+
 // Serve static assets
-app.use(express.static(__dirname));
+app.use(express.static(__dirname, { etag: false, maxAge: 0 }));
 
 // Single Page Application fallback
 app.get('*', (req, res) => {
