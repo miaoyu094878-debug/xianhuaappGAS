@@ -824,7 +824,7 @@
     preset: 0,
     ratio: 'phone',
     pos: 'center',
-    tone: 'light',
+    tone: 'dark',
     size: 48,
     photo: null,
     textNX: 0.5,
@@ -846,15 +846,16 @@
   function wpRand(i) { var x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
   function wpStars(c, w, h, n, opts) {
     opts = opts || {};
+    var base = opts.col || '255,255,255';
     for (var i = 0; i < n; i++) {
       var rx = wpRand(i * 3 + 1), ry = wpRand(i * 3 + 2), rb = wpRand(i * 3 + 3);
       var x = rx * w, y = ry * h, rad = rb * 1.7 + 0.5, a = rb * 0.55 + 0.28;
       if (opts.dim) a *= 0.6;
-      c.fillStyle = 'rgba(255,255,255,' + a + ')';
+      c.fillStyle = 'rgba(' + base + ',' + a + ')';
       c.beginPath(); c.arc(x, y, rad, 0, Math.PI * 2); c.fill();
       if (opts.spark && rad > 1.7) {
         c.save(); c.globalAlpha = a * 0.85;
-        c.strokeStyle = 'rgba(255,255,255,0.9)'; c.lineWidth = Math.max(1, rad * 0.45);
+        c.strokeStyle = 'rgba(' + base + ',0.9)'; c.lineWidth = Math.max(1, rad * 0.45);
         var s = rad * 4.5;
         c.beginPath(); c.moveTo(x - s, y); c.lineTo(x + s, y); c.moveTo(x, y - s); c.lineTo(x, y + s); c.stroke();
         c.restore();
@@ -867,67 +868,61 @@
     c.fillStyle = g; c.fillRect(0, 0, w, h);
   }
   var WP_PRESETS = [
-    // 1 · Aurora Veil 极光纱幔
+    // 1 · Aurora Veil 极光纱幔（浅色）
     function (c, w, h) {
       var g = c.createLinearGradient(0, 0, w * 0.4, h);
-      g.addColorStop(0, '#0a0e27'); g.addColorStop(0.55, '#0c1230'); g.addColorStop(1, '#05060f');
+      g.addColorStop(0, '#eef3ff'); g.addColorStop(0.55, '#e7edfa'); g.addColorStop(1, '#dde5f2');
       c.fillStyle = g; c.fillRect(0, 0, w, h);
-      wpBlob(c, w * 0.5, h * 0.22, w * 0.85, 'rgba(40,220,180,0.28)');
-      wpBlob(c, w * 0.3, h * 0.34, w * 0.70, 'rgba(90,120,240,0.26)');
-      wpBlob(c, w * 0.72, h * 0.30, w * 0.60, 'rgba(200,90,220,0.24)');
-      wpStars(c, w, h, 90, { dim: true });
-      wpVignette(c, w, h, 0.34);
+      wpBlob(c, w * 0.5, h * 0.22, w * 0.85, 'rgba(80,210,190,0.36)');
+      wpBlob(c, w * 0.3, h * 0.34, w * 0.70, 'rgba(120,150,235,0.32)');
+      wpBlob(c, w * 0.72, h * 0.30, w * 0.60, 'rgba(220,140,215,0.28)');
+      wpStars(c, w, h, 90, { col: '120,140,180' });
     },
-    // 2 · Midnight Bloom 午夜花
+    // 2 · Morning Bloom 晨花（浅色）
     function (c, w, h) {
       var g = c.createRadialGradient(w * 0.5, h * 0.45, 0, w * 0.5, h * 0.45, Math.max(w, h) * 0.9);
-      g.addColorStop(0, '#241033'); g.addColorStop(1, '#0a0510');
+      g.addColorStop(0, '#fff5fa'); g.addColorStop(1, '#f5e6f0');
       c.fillStyle = g; c.fillRect(0, 0, w, h);
-      wpBlob(c, w * 0.72, h * 0.26, w * 0.70, 'rgba(220,90,180,0.40)');
-      wpBlob(c, w * 0.22, h * 0.82, w * 0.60, 'rgba(120,80,225,0.34)');
-      wpStars(c, w, h, 70, { dim: true });
-      wpVignette(c, w, h, 0.30);
+      wpBlob(c, w * 0.72, h * 0.26, w * 0.70, 'rgba(230,145,200,0.40)');
+      wpBlob(c, w * 0.22, h * 0.82, w * 0.60, 'rgba(180,140,235,0.34)');
+      wpStars(c, w, h, 70, { col: '180,120,200' });
     },
-    // 3 · Cosmic Drift 星河漂流（银河带）
+    // 3 · Cosmic Drift 日间星河（浅色）
     function (c, w, h) {
       var g = c.createLinearGradient(0, 0, w, h);
-      g.addColorStop(0, '#070a1c'); g.addColorStop(0.5, '#05070f'); g.addColorStop(1, '#02030a');
+      g.addColorStop(0, '#e8f0fb'); g.addColorStop(0.5, '#dde7f5'); g.addColorStop(1, '#d2dcef');
       c.fillStyle = g; c.fillRect(0, 0, w, h);
-      wpBlob(c, w * 0.20, h * 0.30, w * 0.50, 'rgba(150,170,255,0.18)');
-      wpBlob(c, w * 0.50, h * 0.46, w * 0.55, 'rgba(180,150,240,0.16)');
-      wpBlob(c, w * 0.82, h * 0.62, w * 0.50, 'rgba(120,180,255,0.16)');
-      wpStars(c, w, h, 170, { spark: true });
-      wpVignette(c, w, h, 0.30);
+      wpBlob(c, w * 0.20, h * 0.30, w * 0.50, 'rgba(150,170,255,0.30)');
+      wpBlob(c, w * 0.50, h * 0.46, w * 0.55, 'rgba(180,150,240,0.28)');
+      wpBlob(c, w * 0.82, h * 0.62, w * 0.50, 'rgba(120,180,255,0.28)');
+      wpStars(c, w, h, 170, { spark: true, col: '120,140,200' });
     },
-    // 4 · Ember Glow 余烬暖光
+    // 4 · Ember Glow 暖光（浅色）
     function (c, w, h) {
       var g = c.createRadialGradient(w * 0.3, h * 0.9, 0, w * 0.5, h * 0.6, Math.max(w, h));
-      g.addColorStop(0, '#2a1606'); g.addColorStop(1, '#0a0604');
+      g.addColorStop(0, '#fff2dc'); g.addColorStop(1, '#f5e0c5');
       c.fillStyle = g; c.fillRect(0, 0, w, h);
-      wpBlob(c, w * 0.28, h * 0.86, w * 0.80, 'rgba(255,150,60,0.34)');
-      wpBlob(c, w * 0.82, h * 0.20, w * 0.50, 'rgba(255,120,90,0.20)');
-      wpStars(c, w, h, 50, { dim: true });
-      wpVignette(c, w, h, 0.42);
+      wpBlob(c, w * 0.28, h * 0.86, w * 0.80, 'rgba(255,180,90,0.38)');
+      wpBlob(c, w * 0.82, h * 0.20, w * 0.50, 'rgba(255,150,120,0.26)');
+      wpStars(c, w, h, 50, { col: '200,140,80' });
     },
-    // 5 · Ocean Depths 深海
+    // 5 · Ocean Shimmer 浅海（浅色）
     function (c, w, h) {
       var g = c.createLinearGradient(0, h, 0, 0);
-      g.addColorStop(0, '#021a1e'); g.addColorStop(1, '#01090c');
+      g.addColorStop(0, '#d3eff3'); g.addColorStop(1, '#e4f1f4');
       c.fillStyle = g; c.fillRect(0, 0, w, h);
-      wpBlob(c, w * 0.5, h * 0.64, w * 0.95, 'rgba(40,200,210,0.30)');
-      wpBlob(c, w * 0.32, h * 0.30, w * 0.50, 'rgba(60,120,205,0.26)');
-      wpStars(c, w, h, 45, { dim: true });
-      wpVignette(c, w, h, 0.34);
+      wpBlob(c, w * 0.5, h * 0.64, w * 0.95, 'rgba(80,205,215,0.34)');
+      wpBlob(c, w * 0.32, h * 0.30, w * 0.50, 'rgba(100,150,205,0.30)');
+      wpStars(c, w, h, 45, { col: '80,160,180' });
     },
-    // 6 · Rose Quartz Night 玫瑰夜
+    // 6 · Rose Quartz Day 玫瑰日（浅色）
     function (c, w, h) {
       var g = c.createRadialGradient(w * 0.5, h * 0.4, 0, w * 0.5, h * 0.4, Math.max(w, h) * 0.85);
-      g.addColorStop(0, '#1c0712'); g.addColorStop(1, '#0a0308');
+      g.addColorStop(0, '#fff0f3'); g.addColorStop(1, '#f5dde6');
       c.fillStyle = g; c.fillRect(0, 0, w, h);
-      wpBlob(c, w * 0.5, h * 0.34, w * 0.85, 'rgba(240,150,190,0.30)');
-      wpBlob(c, w * 0.74, h * 0.80, w * 0.50, 'rgba(150,90,205,0.28)');
-      wpStars(c, w, h, 55, { dim: true });
-      wpVignette(c, w, h, 0.30);
+      wpBlob(c, w * 0.5, h * 0.34, w * 0.85, 'rgba(240,150,190,0.36)');
+      wpBlob(c, w * 0.74, h * 0.80, w * 0.50, 'rgba(180,130,225,0.32)');
+      wpStars(c, w, h, 55, { col: '200,120,160' });
     }
   ];
 
