@@ -19,8 +19,11 @@ app.use((req, res, next) => {
 // Serve static assets
 app.use(express.static(__dirname, { etag: false, maxAge: 0 }));
 
-// Single Page Application fallback
+// Single Page Application fallback (only for HTML routes, never for assets)
 app.get('*', (req, res) => {
+  if (req.path.includes('.')) {
+    return res.status(404).send('Not Found');
+  }
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
