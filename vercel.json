@@ -1,9 +1,8 @@
 {
-  "buildCommand": null,
-  "outputDirectory": ".",
+  "cleanUrls": false,
   "rewrites": [
     { "source": "/landing", "destination": "/landing.html" },
-    { "source": "/((?!.*\\.).*)", "destination": "/index.html" }
+    { "source": "/((?!styles\\.css|app\\.js|manifest\\.json|landing\\.html|icons/|.*\\..*).*)", "destination": "/index.html" }
   ],
   "headers": [
     {
@@ -17,6 +16,20 @@
       "source": "/manifest.json",
       "headers": [
         { "key": "Content-Type", "value": "application/manifest+json" }
+      ]
+    },
+    {
+      "source": "/styles.css",
+      "headers": [
+        { "key": "Content-Type", "value": "text/css; charset=UTF-8" },
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/app.js",
+      "headers": [
+        { "key": "Content-Type", "value": "application/javascript; charset=UTF-8" },
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
       ]
     }
   ]
